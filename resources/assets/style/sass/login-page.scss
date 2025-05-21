@@ -1,0 +1,89 @@
+@import "variables";
+@import "infy-loader";
+
+.bg-image {
+    background: url(('assets/img/login-bg.jpg'));
+}
+
+.login-container {
+    box-shadow: 1.5px 3.99px 27px 0px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    background-color: rgba(255, 255, 255, 0.72);
+    margin: auto;
+    margin-top: 7%;
+    @media screen and (max-width: 991px) {
+        .login-container {
+            margin-bottom: 5%; } }
+}
+
+.container {
+    max-width: 1170px; }
+@media screen and (max-width: 575px) {
+    .container {
+        padding: 10px 15px; } }
+
+.img-box {
+    margin: auto;
+    padding: 30px 20px;
+    border-right: 1px solid #cccccc5e;
+    text-align: center;
+}
+
+.login-box {
+    padding: 15px 20px !important;
+    margin: 50px;
+}
+
+.login-box .login-row {
+    margin-top: 25px;
+}
+
+.login-box .login-row input {
+    margin-bottom: 0px;
+}
+
+.login-box .forrr p {
+    font-size: .9rem;
+}
+
+.login-box .forrr a {
+    font-size: .9rem;
+    float: right;
+    margin-top: -22px;
+    color: #5288f4;
+}
+
+.login-box label {
+    font-size: .93rem;
+    margin-bottom: 0px;
+    color: #928f8f;
+}
+
+.login-box label i {
+    margin-right: 3px;
+}
+
+.login-box input {
+    border: 0px;
+    border-radius: 0px;
+    border-bottom: 1px solid #CCC;
+    background-color: #fcfbfc1f;
+    margin-top: -23px;
+}
+
+.login-box input:focus {
+    border: 0px !important;
+    border-bottom: 2px solid #5288f4 !important;
+    background-color: #fcfbfc1f !important;
+}
+
+.login-btn {
+    box-shadow: 0 2px 6px #acb5f6 !important;
+    background-color: #72acfb !important;
+    border-color: #bfd4fc !important;
+    color: white;
+
+    &:hover{
+        color: white;
+    }
+}

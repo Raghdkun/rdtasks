@@ -1,0 +1,122 @@
+.fc-head {
+    background-color: #6677ef;
+}
+
+.fc-view > table th {
+    color: white !important;
+}
+
+.fc-day-grid-event {
+    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 15%);
+    margin: 1px 2px 4px 2px !important;
+}
+
+.fc-day-grid-event .fc-content {
+    padding: 10px !important;
+    position: relative;
+
+    &:hover {
+        .action-div {
+            display: flex;
+        }
+    }
+}
+
+.fc-day-grid-event .fc-content .action-div {
+    color: white;
+    position: absolute;
+    top: 1px;
+    right: 9px;
+    z-index: 100;
+    cursor: pointer;
+    display: none;
+    border-radius: 10%;
+    height: 28px;
+    width: 45px;
+    padding-top: 0px;
+    background-color: rgba(0, 0, 0, .5);
+    font-size: 14px;
+
+    .delete-btn {
+        color: #fc544b;
+    }
+}
+
+.fc-today.alert.alert-info {
+    background-color: #FFFFFF !important;
+}
+
+.fc-time-grid-event {
+    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 15%);
+    margin: 1px 2px 4px 2px !important;
+
+    &:hover {
+        .fc-content .action-div {
+            display: flex;
+        }
+    }
+}
+
+.fc-time-grid-event .fc-content {
+    padding: 10px !important;
+    position: relative;
+}
+
+.fc-time-grid-event .fc-content .action-div {
+    color: white;
+    position: absolute;
+    top: 1px;
+    right: 9px;
+    z-index: 100;
+    cursor: pointer;
+    display: none;
+    border-radius: 10%;
+    height: 28px;
+    width: 45px;
+    padding-top: 0px;
+    background-color: rgba(0, 0, 0, .5);
+    font-size: 14px;
+
+    .delete-btn {
+        color: #fc544b;
+    }
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    ul table tr td {
+        color: black !important;
+    }
+}
+
+p {
+    margin: 0px;
+}
+
+.fc-popover {
+    .fc-header {
+        min-height: 30px;
+
+        span {
+            margin-left: 15px;
+            margin-right: 5px;
+        }
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .bootstrap-datetimepicker-widget.dropdown-menu {
+        left: -15px !important;
+    }
+}
+
+.fc-body {
+    height: 175px;
+    max-height: 175px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    line-break: anywhere;
+}
+
+.fc-content {
+    white-space: unset !important;
+}

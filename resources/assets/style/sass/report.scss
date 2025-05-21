@@ -1,0 +1,215 @@
+@import "variables";
+
+%report-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    
+    @media screen and (max-width: 576px) {
+        &>* {
+            width: 100%;
+        }    
+    }    
+}
+
+.reports {
+
+    &__container {
+        padding-bottom: 10px;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        
+        @media screen and (max-width: 768px) {
+            & * {
+                font-size: 16px;
+            }
+        }
+        
+        @media screen and (max-width: 400px) {
+            & * {
+                font-size: 12px;
+            }
+        }
+    }
+
+    &__department-row {
+        @extend %report-row;
+        color: $orange;
+        background-color: #f2fcff;
+        padding: 10px;
+        
+        &-title {
+            cursor: pointer;
+        }
+
+        @media screen and (max-width:768px) {
+            h5 {
+                font-size: 16px !important;
+
+                &:nth-child(2) {
+                    font-size: 14px !important;
+                }
+            }
+        }
+
+        @media screen and (max-width:400px) {
+            h5 {
+                font-size: 12px !important;
+
+                &:nth-child(2) {
+                    font-size: 10px !important;
+                }
+            }
+        }
+    }
+
+    &__client-row {
+        @extend %report-row;
+        color: $blue;
+        background-color: #fff9f1;
+        padding: 10px;
+
+        &-title {
+            cursor: pointer;
+            margin-left: 2%;
+            
+            @media screen and (max-width: 576px) {
+                & + * {
+                    margin: 2%;
+                }
+            }
+        }
+        
+        @media screen and (max-width:768px) {
+            h5 {
+                font-size: 16px !important;
+                
+                &:nth-child(2) {
+                    font-size: 14px !important;
+                }
+            }
+        }
+        
+        @media screen and (max-width:400px) {
+            h5 {
+                font-size: 12px !important;
+                
+                &:nth-child(2) {
+                    font-size: 10px !important;
+                }
+            }
+        }
+    }
+
+    &__project-row {
+        @extend %report-row;
+        color: $orange;
+        font-size: 16px;
+        font-weight: 500;
+        background-color: #f2fcff;
+        padding: 4px 10px;
+        margin-bottom: 1px;
+        
+        @media screen and (max-width:400px) {
+            padding-left: 15px;
+            
+            span {
+                font-size: 10px;
+            }
+        }
+    }
+
+    &__developer-row {
+        @extend %report-row;
+        font-size: 15px;
+        color: #3c3c3c;
+        padding: 4px 10px;
+        background: #f7f7f7;
+        
+        @media screen and (max-width:400px) {
+            padding-left: 20px;
+            
+            span {
+                font-size: 10px;    
+            }            
+        }
+    }
+
+    &__task-row {
+        @extend %report-row;
+        color: $gray;
+        padding-right: 10px;
+
+        &:hover {
+            font-weight: bold;
+        }
+    }
+
+    &__task-header {
+        .taskDetails:hover {
+            font-weight: bold !important;
+        }
+    }
+
+    &__project {
+        &-header {
+            margin-left: 4%;
+            cursor: pointer;
+
+            @media screen and (max-width: 576px) {
+                & + * {
+                    margin-left: 4%;
+                }
+            }
+        }
+    }
+
+    &__developer-task {
+        margin-bottom: 8px;
+    }
+
+    &__developer {
+        margin-bottom: 4px;
+
+        &-header {
+            margin-left: 6%;
+            cursor: pointer;
+
+            @media screen and (max-width: 576px) {
+                & + * {
+                    margin-left: 6%;
+                }
+            }
+        }
+    }
+
+    &__task {
+        &-header {
+            margin-left: 14%;
+            cursor: pointer;
+            
+            @media screen and (max-width: 576px) {
+                & + * {
+                    margin-left: 14%;
+                }
+            }
+        }
+    }
+
+    .fa-rotate {
+        transform: rotate(180deg);
+        transition: all .3s ease;
+    }
+
+    .fa-caret-up {
+        transition: all .3s ease;
+    }
+}
+
+.preview-wrapper {
+    position: absolute;
+    width: 100%;
+    background: #f4f6f9;
+    height: 100%;
+    top: 0;
+}

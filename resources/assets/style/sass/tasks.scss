@@ -1,0 +1,186 @@
+.infy-loader {
+    display: none;
+}
+
+.more-info-menu {
+    width: 300px;
+}
+
+.task-name {
+    display: inline-block;
+}
+
+.min-width-150 {
+    min-width: 150px;
+}
+
+@media screen and (max-width: 768px) {
+    .px-sm-0 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .due-date-wrapper {
+        font-size: 12px;
+        position: absolute !important;
+        left: 35px;
+        bottom: 5px;
+
+        @media screen and (max-width: 400px) {
+            font-size: 10px;
+        }
+    }
+
+    .task-item {
+        .task-name {
+            font-size: 14px;
+            width: 150px !important;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
+            @media screen and (max-width: 400px) {
+                font-size: 12px;
+                width: 80px !important;
+            }
+        }
+
+        .card-header {
+            padding-right: 5px;
+            padding-bottom: 20px !important;
+        }
+
+        .right-side-content {
+            .bootstrap-datetimepicker-widget.dropdown-menu {
+                left: -20px !important;
+            }
+            .bootstrap-datetimepicker-widget.dropdown-menu.pull-right:before {
+                left: 6px;
+                right: auto;
+            }
+
+            .more-info {
+                margin-right: 0 !important;
+            }
+        }
+    }
+
+    .more-info-menu {
+        .dropdown-item {
+            max-width: 100%;
+            overflow: auto;
+        }
+
+        .assignee__avatar {
+            height: 28px !important;
+            width: 28px !important;
+            margin-right: 4px;
+        }
+    }
+}
+
+.task-filter-wrapper {
+    display: inline-block;
+    position: absolute;
+    right: 220px;
+    z-index: 99;
+}
+
+.fix-action-btn {
+    height: 28px;
+    width: 28px;
+}
+
+@media (max-width: 320px) {
+    .position-xs-bottom {
+        position: absolute;
+        bottom: 0px;
+        right: 50px !important;
+    }
+    .bootstrap-datetimepicker-widget.dropdown-menu {
+        width: 150% !important;
+    }
+}
+
+.dropdown-large {
+    padding: 20px;
+    min-width: 285px;
+    @media all and (min-width: 1440px) {
+        min-width: 800px !important;
+    }
+    @media screen and (min-width: 768px) {
+        min-width: 630px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .filter-container .dropdown-large {
+        position: absolute !important;
+        transform: translateY(38px) !important;
+        margin-left: -25px;
+    }
+}
+
+.check {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 10px;
+    top: 30%;
+    margin: auto;
+
+    input {
+        display: none;
+
+        &:checked + .box {
+            background-color: #07d410;
+
+            &:after {
+                top: 0;
+            }
+        }
+    }
+
+    .box {
+        width: 100%;
+        height: 100%;
+        transition: all 1.1s cubic-bezier(.19, 1, .22, 1);
+        border: 1px solid #f1f1f1;
+        background-color: white;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 2px 2px rgba(0, 0, 0, 15%);
+
+        &:after {
+            width: 50%;
+            height: 20%;
+            content: '';
+            position: absolute;
+            border-left: 2.5px solid;
+            border-bottom: 2px solid;
+            border-color: #fff;
+            transform: rotate(-45deg) translate3d(0, 0, 0);
+            transform-origin: center center;
+            transition: all 1.1s cubic-bezier(.19, 1, .22, 1);
+            left: 0;
+            right: 0;
+            top: 200%;
+            bottom: 5%;
+            margin: auto;
+
+        }
+    }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.preview-image-thumb{
+    .x-image{
+        height: 60px;
+        width: 80px;
+        border-radius: 5px;
+    }
+}

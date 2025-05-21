@@ -1,0 +1,299 @@
+@import "variables";
+@import "infy-loader";
+
+.task-kanban {
+    &__card-left-panel {
+        margin: 0px;
+        padding: 0px 25px 25px 25px;
+        background-color: #fbfcfd;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+
+        .edit-title {
+            i {
+                font-size: 15px;
+            }
+        }
+
+        .task-title-input {
+            &.error {
+                background: #ffcdcd;
+            }
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .x-heading {
+            font-size: 15px;
+            border-bottom: solid 1px #e6e6e6;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .x-content {
+            padding-left: 20px;
+            padding-bottom: 1px;
+        }
+
+        .card-description {
+            padding-bottom: 15px;
+            padding-top: 10px;
+
+            .x-heading {
+                .task_edit_description {
+                    i {
+                        font-size: 15px;
+                    }
+                }
+            }
+
+            .x-content {
+                max-height: 120px;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+        }
+
+        .card-attachments {
+            padding-bottom: 15px;
+
+            .x-heading {
+                padding-bottom: 10px;
+            }
+
+            .x-content {
+                max-height: 135px;
+                overflow-y: auto;
+                overflow-x: hidden;
+
+                .file-attachment {
+                    margin-bottom: 16px;
+                    display: flex;
+
+                    .preview-image-thumb {
+                        width: 100%;
+                        height: 100%;
+                        display: block;
+                        color: inherit;
+
+                        .x-image {
+                            height: 60px;
+                            width: 80px;
+                            border-radius: 5px;
+                            background-size: contain;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            background-color: #e8edef;
+                            font-size: 18px;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            text-align: center;
+                            line-height: 60px;
+                            object-fit: contain;
+                        }
+                    }
+
+                    .x-details {
+                        margin-left: 15px;
+                        font-size: 13px;
+                        padding-top: 0px;
+
+                        .x-name {
+                            font-size: 13px;
+                            font-weight: normal;
+                        }
+                    }
+                }
+            }
+        }
+
+        .card-comments {
+            .x-content {
+                #card-comments-container {
+                    max-height: 180px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    margin-top: 20px;
+                }
+
+                .comment-row {
+                    font-size: 13px;
+                    background-color: #edeff1;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+
+                    &:hover .commentToggle {
+                        display: block !important;
+                    }
+
+                    .comment-avatar {
+                        width: 50px;
+                        height: 50px;
+
+                        & img {
+                            border-radius: 50%;
+                            width: 45px;
+                            height: 45px;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .comment-text {
+                        padding-left: 32px;
+                        padding-top: 8px;
+                        padding-bottom: 4px;
+                    }
+                }
+            }
+        }
+    }
+
+    &__card-right-panel {
+        margin: 0px;
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: #fbfcfd;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+
+        .more-avatar {
+            text-align: center;
+            padding: 5px 0;
+            background: #bbb;
+            color: #6777ef !important;
+        }
+
+        .x-assigned-user .avatar-sm {
+            border: 1px solid #fff;
+            position: relative;
+            transition: .3s;
+
+            &:not(:first-child) {
+                margin-left: -18px;
+            }
+
+            &:hover {
+                z-index: 99;
+                transform: scale(1.1);
+            }
+        }
+
+        .x-section {
+            .x-element {
+                min-height: 31px;
+                border-color: #e4e8ec;
+                padding: 5px 5px 0 5px;
+                background-color: #e4e8ec;
+                border-radius: 3px;
+                font-size: 13px;
+                margin-bottom: 10px;
+                color: #3e4852;
+                word-wrap: break-word;
+
+                .x-highlight {
+                    color: #052c54;
+                    font-weight: 500;
+                }
+
+                .table-sm {
+                    font-size: 12px;
+
+                    & .td-text {
+                        color: #052c54;
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            .x-element span {
+                vertical-align: middle;
+            }
+
+        }
+
+        .task-timer-container {
+            .x-timer {
+                margin-bottom: 20px;
+                margin-top: -6px;
+                text-align: center;
+
+                .x-timer-time {
+                    font-weight: 500;
+                    vertical-align: middle;
+                    display: inline-block;
+                    font-size: 24px;
+                }
+            }
+        }
+    }
+}
+
+#taskKanbanDetailsModel .modal-dialog {
+    max-width: 868px;
+
+    @media screen and (width : 768px) and (height: 1024px){
+        max-width: 90% !important;
+    }
+
+    .modal-content {
+        .modal-body {
+            padding-bottom: 0px !important;
+        }
+    }
+}
+
+.popover .popover-body {
+    width: 180px !important;
+    max-height: 230px;
+    overflow: auto;
+    background-color: #f6f7f9;
+    padding-top: 0px;
+}
+
+.popover .arrow {
+    visibility: hidden;
+}
+
+#priority-data {
+    text-transform: capitalize;
+}s
+
+#status-data {
+    text-transform: capitalize;
+}
+
+#due_date{
+    input{
+        opacity: 0 ;
+        position: absolute;
+        width: 140px;
+
+        @media screen and (min-width: 360px) and (max-width: 1023px){
+            width: 185px !important;
+        }
+        @media screen and (min-width: 320px) and (max-width: 359px){
+            width: 155px !important;
+        }
+    }
+}
+
+.popover-div {
+    color: #a3acf5;
+    font-weight: bold;
+
+    &:hover {
+        color: #6777ef;
+        font-family: Poppins, Helvetica, sans-serif;
+        background-color: #e4e8ec;
+        border-radius: 4px;
+    }
+}
+
+.edit-task-attachment {
+    max-height: 135px !important;
+    overflow: auto;
+}

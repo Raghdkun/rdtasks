@@ -1,0 +1,26 @@
+// Variables
+@import 'variables';
+
+.time_range {
+    background: $white;
+    cursor: pointer;
+    padding: 9px 10px;
+    border: 1px solid $primary-border;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.no-record {
+    padding-top: 50px;
+    height: 150px;
+}
+
+.time_range_width {
+    width: 70%;
+}
+
+@media screen and (max-width: 540px) {
+    .colUsers {
+        margin-bottom: 1em !important;
+    }
+}

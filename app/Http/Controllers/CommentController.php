@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Comment;
+use App\Models\Task;
+use App\Repositories\TaskRepository;
+use Auth;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+
+/**
+ * Class CommentController.
+ */
+class CommentController extends AppBaseController
+{
+    /** @var TaskRepository */
+    private $taskRepository;
+
+    public function __construct(TaskRepository $taskRepo)
+    {
+        $this->taskRepository = $taskRepo;
+    }
+
+    /**
+     * @param  Task  $task
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function addComment(Task $task, Request $request)
+    {
+        $input = $request->only(['comment']);
+        $input['task_id'] = $task->id;
+
+        $comment = $this->taskRepository->addComment($input);
+
+        return $this->sendResponse(['comment' => $comment], 'Comment has been added successfully.');
+    }
+
+    /**
+     * @param  Task  $task
+     * @param  Comment  $comment
+     * @return JsonResponse
+     *
+     * @throws Exception
+     */
+    public function deleteComment(Task $task, Comment $comment)
+    {
+        if ($comment->task_id != $task->id || $comment->created_by != Auth::user()->id) {
+            throw new UnprocessableEntityHttpException('Unable to delete comment.');
+        }
+
+        $comment->delete();
+
+        return $this->sendSuccess('Comment has been deleted successfully.');
+    }
+
+    /**
+     * @param  Task  $task
+     * @param  Comment  $comment
+     * @param  Request  $request
+     * @return JsonResponse
+     */
+    public function editComment(Task $task, Comment $comment, Request $request)
+    {
+        if ($comment->task_id != $task->id || $comment->created_by != Auth::user()->id) {
+            throw new UnprocessableEntityHttpException('Unable to update comment.');
+        }
+
+        $comment->comment = $request->get('comment');
+        $comment->save();
+
+        return $this->sendSuccess('Comment has been updated successfully.');
+    }
+}

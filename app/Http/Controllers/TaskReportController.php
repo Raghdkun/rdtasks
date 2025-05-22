@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\DB;
 
 class TaskReportController extends AppBaseController
 {
@@ -18,104 +19,147 @@ class TaskReportController extends AppBaseController
      */
     public function exportCsv(Request $request)
     {
-        // Get filter parameters
-        $projectId = $request->input('project_id');
-        $status = $request->input('status');
-        $priority = $request->input('priority');
-        $userId = $request->input('user_id');
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        try {
+            // Get filter parameters
+            $projectId = $request->input('project_id');
+            $status = $request->input('status');
+            $priority = $request->input('priority');
+            $userId = $request->input('user_id');
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
 
-        // Build query
-        $query = Task::with(['project', 'taskAssignee', 'createdUser'])
-            ->select('tasks.*');
+            // Build query with proper relationships
+            $query = Task::with(['project', 'createdUser', 'taskAssignee', 'timeEntries'])
+                ->select('tasks.*');
 
-        // Apply filters
-        if ($projectId) {
-            $query->where('project_id', $projectId);
-        }
-
-        if ($status !== null && $status !== '') {
-            $query->where('status', $status);
-        }
-
-        if ($priority) {
-            $query->where('priority', $priority);
-        }
-
-        if ($userId) {
-            $query->whereHas('taskAssignee', function ($q) use ($userId) {
-                $q->where('user_id', $userId);
-            });
-        }
-
-        if ($startDate) {
-            $query->whereDate('created_at', '>=', $startDate);
-        }
-
-        if ($endDate) {
-            $query->whereDate('created_at', '<=', $endDate);
-        }
-
-        // Get tasks
-        $tasks = $query->get();
-
-        // Prepare CSV data
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="tasks_report_' . date('Y-m-d') . '.csv"',
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Expires' => '0',
-        ];
-
-        $columns = [
-            'Task ID', 
-            'Task Number', 
-            'Title', 
-            'Description', 
-            'Project', 
-            'Status', 
-            'Priority',
-            'Due Date', 
-            'Completed On', 
-            'Created By', 
-            'Assignees',
-            'Estimated Time',
-            'Total Hours Spent'
-        ];
-
-        $callback = function() use ($tasks, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-
-            foreach ($tasks as $task) {
-                $assignees = $task->taskAssignee->pluck('name')->implode(', ');
-                $statusText = $task->status_text;
-                
-                $row = [
-                    $task->id,
-                    $task->prefix_task_number,
-                    $task->title,
-                    strip_tags($task->description),
-                    $task->project->name,
-                    $statusText,
-                    $task->priority,
-                    $task->due_date ? $task->due_date->format('Y-m-d') : '',
-                    $task->completed_on ? $task->completed_on->format('Y-m-d') : '',
-                    $task->createdUser ? $task->createdUser->name : '',
-                    $assignees,
-                    $task->estimate_time,
-                    $task->task_total_hours
-                ];
-
-                fputcsv($file, $row);
+            // Apply filters
+            if ($projectId) {
+                $query->where('project_id', $projectId);
             }
 
-            fclose($file);
-        };
+            if ($status !== null && $status !== '') {
+                $query->where('status', $status);
+            }
 
-        return Response::stream($callback, 200, $headers);
+            if ($priority) {
+                $query->where('priority', $priority);
+            }
+
+            // Filter by user if provided
+            if ($userId) {
+                $query->whereHas('taskAssignee', function ($q) use ($userId) {
+                    $q->where('user_id', $userId);
+                });
+            }
+
+            if ($startDate) {
+                $query->whereDate('created_at', '>=', $startDate);
+            }
+
+            if ($endDate) {
+                $query->whereDate('created_at', '<=', $endDate);
+            }
+
+            // Get tasks
+            $tasks = $query->get();
+
+            // Prepare CSV data
+            $headers = [
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="tasks_report_' . date('Y-m-d') . '.csv"',
+                'Pragma' => 'no-cache',
+                'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+                'Expires' => '0',
+            ];
+
+            $columns = [
+                'Task ID', 
+                'Task Number', 
+                'Title', 
+                'Description', 
+                'Project', 
+                'Status', 
+                'Priority',
+                'Due Date', 
+                'Completed On', 
+                'Created By', 
+                'Estimated Time',
+                'Total Hours Spent'
+            ];
+
+            $callback = function() use ($tasks, $columns) {
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columns);
+
+                foreach ($tasks as $task) {
+                    // Get status text
+                    $statusText = '';
+                    if (isset($task->status) && is_numeric($task->status)) {
+                        $statusArr = Task::$statusArr ?? [];
+                        $statusText = isset($statusArr[$task->status]) ? $statusArr[$task->status] : '';
+                    } else {
+                        $statusText = $task->status;
+                    }
+                    
+                    // Get project name
+                    $projectName = '';
+                    if (isset($task->project) && $task->project) {
+                        $projectName = $task->project->name;
+                    }
+                    
+                    // Get created by
+                    $createdBy = '';
+                    if (isset($task->createdUser) && $task->createdUser) {
+                        $createdBy = $task->createdUser->name;
+                    }
+                    
+                    // Format due date and completed on date properly
+                    $dueDate = '';
+                    if (!empty($task->due_date)) {
+                        $dueDate = date('Y-m-d', strtotime($task->due_date));
+                    }
+                    
+                    $completedOn = '';
+                    if (!empty($task->completed_on)) {
+                        $completedOn = date('Y-m-d', strtotime($task->completed_on));
+                    }
+                    
+                    // Calculate total hours spent
+                    $totalHoursSpent = 0;
+                    if ($task->timeEntries && $task->timeEntries->count() > 0) {
+                        $totalHoursSpent = $task->timeEntries->sum('duration') / 60; // Convert minutes to hours
+                    }
+                    
+                    $row = [
+                        $task->id ?? '',
+                        $task->task_number ?? '',
+                        $task->title ?? '',
+                        strip_tags($task->description ?? ''),
+                        $projectName,
+                        $statusText,
+                        $task->priority ?? '',
+                        $dueDate,
+                        $completedOn,
+                        $createdBy,
+                        $task->estimate_time ?? '',
+                        number_format($totalHoursSpent, 2) // Format to 2 decimal places
+                    ];
+
+                    fputcsv($file, $row);
+                }
+
+                fclose($file);
+            };
+
+            // Use streamDownload for better compatibility
+            return response()->streamDownload($callback, 'tasks_report_' . date('Y-m-d') . '.csv', $headers);
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('Task report export failed: ' . $e->getMessage());
+            
+            // Return a friendly error message
+            return back()->with('error', 'Failed to export tasks: ' . $e->getMessage());
+        }
     }
 
     /**

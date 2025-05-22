@@ -35,7 +35,7 @@
                                 @if(getLoggedInUser()->can('manage_projects'))
                                 <div class="form-group col-sm-6 col-md-6 col-lg-4">
                                     <label class="lbl-block"><b>{{ __('messages.task.assign_to') }}</b></label>
-                                    {{ Form::select('drp_users',$assignees, Auth::id(), ['id'=>'filter_user', 'class'=>'form-control min-width-150',  'placeholder' => 'All']) }}
+                                    {{ Form::select('drp_users',$assignees, null, ['id'=>'filter_user', 'class'=>'form-control min-width-150',  'placeholder' => 'All']) }}
                                 </div>
                                 @endif
                                 <div class="form-group col-sm-6 col-md-6 col-lg-4">

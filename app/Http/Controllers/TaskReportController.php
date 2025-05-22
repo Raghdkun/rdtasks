@@ -82,7 +82,8 @@ class TaskReportController extends AppBaseController
                 'Priority',
                 'Due Date', 
                 'Completed On', 
-                'Created By', 
+                'Created By',
+                'Assigned To',
                 'Estimated Time',
                 'Total Hours Spent'
             ];
@@ -130,22 +131,48 @@ class TaskReportController extends AppBaseController
                         $totalHoursSpent = $task->timeEntries->sum('duration') / 60; // Convert minutes to hours
                     }
                     
-                    $row = [
-                        $task->id ?? '',
-                        $task->task_number ?? '',
-                        $task->title ?? '',
-                        strip_tags($task->description ?? ''),
-                        $projectName,
-                        $statusText,
-                        $task->priority ?? '',
-                        $dueDate,
-                        $completedOn,
-                        $createdBy,
-                        $task->estimate_time ?? '',
-                        number_format($totalHoursSpent, 2) // Format to 2 decimal places
-                    ];
+                    // Check if task has assignees
+                    if ($task->taskAssignee && $task->taskAssignee->count() > 0) {
+                        // Create a row for each assignee
+                        foreach ($task->taskAssignee as $assignee) {
+                            $row = [
+                                $task->id ?? '',
+                                $task->task_number ?? '',
+                                $task->title ?? '',
+                                strip_tags($task->description ?? ''),
+                                $projectName,
+                                $statusText,
+                                $task->priority ?? '',
+                                $dueDate,
+                                $completedOn,
+                                $createdBy,
+                                $assignee->name ?? '', // Add assignee name
+                                $task->estimate_time ?? '',
+                                number_format($totalHoursSpent, 2) // Format to 2 decimal places
+                            ];
 
-                    fputcsv($file, $row);
+                            fputcsv($file, $row);
+                        }
+                    } else {
+                        // If no assignees, create a row with empty assignee field
+                        $row = [
+                            $task->id ?? '',
+                            $task->task_number ?? '',
+                            $task->title ?? '',
+                            strip_tags($task->description ?? ''),
+                            $projectName,
+                            $statusText,
+                            $task->priority ?? '',
+                            $dueDate,
+                            $completedOn,
+                            $createdBy,
+                            '', // Empty assignee
+                            $task->estimate_time ?? '',
+                            number_format($totalHoursSpent, 2) // Format to 2 decimal places
+                        ];
+
+                        fputcsv($file, $row);
+                    }
                 }
 
                 fclose($file);

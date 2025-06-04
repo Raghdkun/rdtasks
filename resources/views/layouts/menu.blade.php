@@ -157,6 +157,18 @@
         </a>
     </li>
 @endcan
+@if(getLoggedInUser()->hasRole('Admin'))
+    <li class="side-menus {{ Request::is('task-ratings*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('task-ratings.index') }}">
+            <i class="fas fa-star" aria-hidden="true"></i><span>Task Ratings</span>
+        </a>
+    </li>
+    <li class="side-menus {{ Request::is('client-ratings*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('client-ratings.index') }}">
+            <i class="fas fa-star-half-alt" aria-hidden="true"></i><span>Client Ratings</span>
+        </a>
+    </li>
+@endif
 <li class="side-menus {{ Request::is('events*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('events.index') }}">
         <i class="fas fa-calendar-day"

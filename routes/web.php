@@ -25,8 +25,11 @@ use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TimeEntryCalenderController;
 use App\Http\Controllers\TimeEntryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TaskRatingController;
 use App\Http\Controllers\UserNotificationController;
+use App\Http\Controllers\ClientRatingController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -297,6 +300,24 @@ Route::fallback(function () {
     abort(\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
 });
 
-// Add these routes to your web.php file
+// Add these routes to your existing web.php file
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::get('/task-ratings', [TaskRatingController::class, 'index'])->name('task-ratings.index');
+    Route::get('/task-ratings/{task}/create', [TaskRatingController::class, 'create'])->name('task-ratings.create');
+    Route::post('/task-ratings/{task}', [TaskRatingController::class, 'store'])->name('task-ratings.store');
+    Route::get('/task-ratings/{task}/edit', [TaskRatingController::class, 'edit'])->name('task-ratings.edit');
+    Route::put('/task-ratings/{task}', [TaskRatingController::class, 'update'])->name('task-ratings.update');
+    Route::get('/task-ratings/{task}', [TaskRatingController::class, 'show'])->name('task-ratings.show');
+});
+
 Route::get('task-reports', [App\Http\Controllers\TaskReportController::class, 'index'])->name('task.reports');
 Route::get('task-reports/export', [App\Http\Controllers\TaskReportController::class, 'exportCsv'])->name('task.report.export');
+
+// Client Ratings Routes
+Route::middleware(['auth'])->group(function () {
+    Route::resource('client-ratings', ClientRatingController::class);
+});
+
+// Public client rating view (no auth required)
+Route::get('client/{client}/ratings/public/{token?}', [ClientRatingController::class, 'publicView'])
+    ->name('client-ratings.public');

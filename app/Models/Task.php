@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 /**
  * App\Models\Task.
@@ -224,6 +226,22 @@ class Task extends Model implements HasMedia
     }
 
     /**
+     * Get the client through the project relationship
+     * @return \Illuminate\Database\Eloquent\Relations\HasOneThrough
+     */
+    public function client()
+    {
+        return $this->hasOneThrough(
+            Client::class,
+            Project::class,
+            'id', // Foreign key on projects table
+            'id', // Foreign key on clients table
+            'project_id', // Local key on tasks table
+            'client_id' // Local key on projects table
+        );
+    }
+
+    /**
      * @param  string  $value
      * @return string
      */
@@ -423,4 +441,14 @@ class Task extends Model implements HasMedia
     {
         return self::$statusArr[$this->status];
     }
+
+    public function rating(): HasOne
+{
+    return $this->hasOne(TaskRating::class);
+}
+// Add this relationship to your existing Task model
+public function clientRatings(): HasMany
+{
+    return $this->hasMany(ClientRating::class);
+}
 }

@@ -262,8 +262,8 @@ class ComposerStaticInit1aa0901ff036ed6e271edd6c4ceb4dbc
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'ZipStream\\' => 
         array (
@@ -479,8 +479,8 @@ class ComposerStaticInit1aa0901ff036ed6e271edd6c4ceb4dbc
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -904,6 +904,8 @@ class ComposerStaticInit1aa0901ff036ed6e271edd6c4ceb4dbc
         'App\\Http\\Controllers\\StatusController' => __DIR__ . '/../..' . '/app/Http/Controllers/StatusController.php',
         'App\\Http\\Controllers\\TagController' => __DIR__ . '/../..' . '/app/Http/Controllers/TagController.php',
         'App\\Http\\Controllers\\TaskController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskController.php',
+        'App\\Http\\Controllers\\TaskRatingController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskRatingController.php',
+        'App\\Http\\Controllers\\TaskReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskReportController.php',
         'App\\Http\\Controllers\\TaxController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaxController.php',
         'App\\Http\\Controllers\\TimeEntryCalenderController' => __DIR__ . '/../..' . '/app/Http/Controllers/TimeEntryCalenderController.php',
         'App\\Http\\Controllers\\TimeEntryController' => __DIR__ . '/../..' . '/app/Http/Controllers/TimeEntryController.php',
@@ -997,6 +999,7 @@ class ComposerStaticInit1aa0901ff036ed6e271edd6c4ceb4dbc
         'App\\Models\\Tag' => __DIR__ . '/../..' . '/app/Models/Tag.php',
         'App\\Models\\Task' => __DIR__ . '/../..' . '/app/Models/Task.php',
         'App\\Models\\TaskAttachment' => __DIR__ . '/../..' . '/app/Models/TaskAttachment.php',
+        'App\\Models\\TaskRating' => __DIR__ . '/../..' . '/app/Models/TaskRating.php',
         'App\\Models\\TaskTag' => __DIR__ . '/../..' . '/app/Models/TaskTag.php',
         'App\\Models\\Tax' => __DIR__ . '/../..' . '/app/Models/Tax.php',
         'App\\Models\\TimeEntry' => __DIR__ . '/../..' . '/app/Models/TimeEntry.php',

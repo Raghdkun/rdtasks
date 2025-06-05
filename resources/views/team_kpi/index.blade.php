@@ -105,10 +105,10 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" id="full-report-area">
         <div class="row">
             <div class="col-12">
-                <div class="kpi-card">
+                <div class="kpi-card screenshot-area">
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <h2 class="mb-0"><i class="fas fa-chart-line"></i> Team KPI Report</h2>
@@ -130,10 +130,10 @@
         <!-- Filters -->
         <div class="row">
             <div class="col-12">
-                <div class="filter-card">
+                <div class="filter-card screenshot-area">
                     <form method="GET" action="{{ route('team-kpi.index') }}" id="filterForm">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label for="user_id">Filter by User:</label>
                                 <select name="user_id" id="user_id" class="form-control">
                                     <option value="">All Users</option>
@@ -152,7 +152,7 @@
                                 <label for="date_to">Date To:</label>
                                 <input type="date" name="date_to" id="date_to" class="form-control" value="{{ request('date_to') }}">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label>&nbsp;</label>
                                 <div>
                                     <button type="submit" class="btn btn-primary btn-block">
@@ -162,9 +162,12 @@
                             </div>
                         </div>
                         <div class="row mt-2">
-                            <div class="col-12">
-                                <a href="{{ route('team-kpi.index') }}" class="btn btn-secondary btn-sm">
-                                    <i class="fas fa-times"></i> Clear Filters
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-info btn-sm" id="thisMonthBtn">
+                                    <i class="fas fa-calendar-alt"></i> This Month
+                                </button>
+                                <a href="{{ route('team-kpi.index') }}" class="btn btn-secondary btn-sm ml-2">
+                                    <i class="fas fa-times"></i> Clear All Filters
                                 </a>
                             </div>
                         </div>
@@ -278,7 +281,7 @@
 
         <!-- Summary Cards -->
         @if(count($kpiData) > 0)
-            <div class="row mt-4">
+            <div class="row mt-4 screenshot-area" id="summary-cards">
                 <div class="col-md-3">
                     <div class="card text-center">
                         <div class="card-body">
@@ -338,6 +341,30 @@
                     "emptyTable": "No team members found"
                 }
             });
+
+            // This Month button functionality
+            $('#thisMonthBtn').click(function() {
+                const now = new Date();
+                const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+                const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                
+                const formatDate = (date) => {
+                    return date.getFullYear() + '-' + 
+                           String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                           String(date.getDate()).padStart(2, '0');
+                };
+                
+                $('#date_from').val(formatDate(firstDay));
+                $('#date_to').val(formatDate(lastDay));
+                
+                // Auto-submit the form
+                $('#filterForm').submit();
+            });
+
+            // Auto-submit on date/select changes
+            $('#user_id, #date_from, #date_to').change(function() {
+                $('#filterForm').submit();
+            });
         });
 
         function exportData() {
@@ -346,17 +373,19 @@
         }
 
         function takeScreenshot() {
-            const element = document.getElementById('kpiTable');
+            const element = document.getElementById('full-report-area');
             
             html2canvas(element, {
                 scale: 2,
                 useCORS: true,
                 allowTaint: true,
-                backgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                width: element.scrollWidth,
+                height: element.scrollHeight
             }).then(function(canvas) {
                 // Create download link
                 const link = document.createElement('a');
-                link.download = 'team-kpi-table-' + new Date().toISOString().slice(0,10) + '.png';
+                link.download = 'team-kpi-report-' + new Date().toISOString().slice(0,10) + '.png';
                 link.href = canvas.toDataURL();
                 
                 // Trigger download
@@ -365,7 +394,7 @@
                 document.body.removeChild(link);
                 
                 // Show success message
-                alert('Table screenshot saved successfully!');
+                alert('Full KPI report screenshot saved successfully!');
             }).catch(function(error) {
                 console.error('Error taking screenshot:', error);
                 alert('Error taking screenshot. Please try again.');

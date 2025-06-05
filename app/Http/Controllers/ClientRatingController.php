@@ -50,6 +50,7 @@ class ClientRatingController extends Controller
     {
         $tasks = Task::with(['project', 'client'])
             ->whereHas('project.client')
+            ->whereDoesntHave('clientRatings') // Exclude tasks that already have client ratings
             ->orderBy('title')
             ->get();
         $clients = Client::orderBy('name')->get();

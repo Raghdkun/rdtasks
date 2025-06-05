@@ -301,6 +301,13 @@ Route::fallback(function () {
 });
 
 // Add these routes to your existing web.php file
+
+// Team KPI Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/team-kpi', [App\Http\Controllers\TeamKpiController::class, 'index'])->name('team-kpi.index');
+    Route::get('/team-kpi/export', [App\Http\Controllers\TeamKpiController::class, 'export'])->name('team-kpi.export');
+});
+
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/task-ratings', [TaskRatingController::class, 'index'])->name('task-ratings.index');
     Route::get('/task-ratings/{task}/create', [TaskRatingController::class, 'create'])->name('task-ratings.create');

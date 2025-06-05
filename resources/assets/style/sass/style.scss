@@ -309,7 +309,7 @@ table.dataTable {
             color: white !important;
             background: #0719eb !important;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-            border: 1px solid #6777ef !important;
+            border: 1px solid #D81619 !important;
             padding: .5rem .75rem !important;
             font-weight: 600 !important;
             margin: 0 5px !important;
@@ -331,7 +331,7 @@ table.dataTable {
 
             &:hover {
                 background: #0719eb !important;
-                border: 1px solid #6777ef !important;
+                border: 1px solid #D81619 !important;
                 color: #fff !important;
                 font-weight: 600;
             }
@@ -1485,7 +1485,7 @@ form {
     padding: 1px 5px 2px 8px;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
-    background: #6777ef;
+    background: #D81619;
     font-weight: 600;
     position: absolute;
     bottom: 0;
@@ -1555,7 +1555,7 @@ form {
         text-decoration: none;
 
         &:hover input {
-            color: #6777ef;
+            color: #D81619;
         }
     }
 
@@ -1611,7 +1611,7 @@ form {
 
 .bootstrap-datetimepicker-widget table td.active,
 {
-    background-color: #6777ef !important;
+    background-color: #D81619 !important;
     color: #fff !important;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25) !important;
     border-radius: 5px !important;
@@ -1623,7 +1623,7 @@ form {
 
 .bootstrap-datetimepicker-widget table th {
     padding: 10px !important;
-    color: #6777ef;
+    color: #D81619;
 }
 
 .bootstrap-datetimepicker-widget .timepicker-hour, .bootstrap-datetimepicker-widget .timepicker-minute, .bootstrap-datetimepicker-widget .timepicker-second {
@@ -1631,7 +1631,7 @@ form {
 }
 
 .bootstrap-datetimepicker-widget table td span {
-    color: #6777ef !important;
+    color: #D81619 !important;
 }
 
 .note-editor {
@@ -2340,7 +2340,7 @@ li.language-menu {
 }
 
 .language-item a:hover {
-    background-color: #6777ef;
+    background-color: #D81619;
     color: white;
     transition-delay: 50ms;
     -webkit-transition-delay: 50ms;
@@ -2562,7 +2562,7 @@ li.language-menu {
     }
 
     .fa-user-clock {
-        color: #6777ef;
+        color: #D81619;
     }
 
     .fa-calendar-day {
@@ -2609,7 +2609,7 @@ li.language-menu {
     margin-left: 3px;
 
     &:focus {
-        border-color: #6777ef
+        border-color: #D81619
     }
 }
 
@@ -2668,7 +2668,7 @@ li.language-menu {
 }
 
 .note-editor .note-btn-group .note-btn.active {
-    background: #6777ef !important;
+    background: #D81619 !important;
     color: #ffffff;
 }
 
@@ -2685,7 +2685,7 @@ li.language-menu {
 }
 
 .activeDrop {
-    color: #6777ef !important;
+    color: #D81619 !important;
     font-weight: 600 !important;
 }
 
@@ -2702,7 +2702,7 @@ li.language-menu {
 }
 
 .daterangepicker .ranges li.active, .daterangepicker td.active, .daterangepicker td.active:hover {
-    background-color: #6777ef;
+    background-color: #D81619;
     color: #fff;
 }
 

@@ -37,7 +37,7 @@
             <span>{{ __('messages.tasks') }}</span></a>
         <ul class="dropdown-menu side-menus">
             <li class="side-menus {{ Request::is('tasks*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('tasks.index') }}">
+                <a class="nav-link" href="{{ route('kanban.index') }}">
                     <i class="fas fa-tasks " aria-hidden="true"></i><span>{{ __('messages.tasks') }}</span>
                 </a>
             </li>
@@ -157,6 +157,8 @@
         </a>
     </li>
 @endcan
+
+{{-- Add this after the client-ratings menu item --}}
 @if(getLoggedInUser()->hasRole('Admin'))
     <li class="side-menus {{ Request::is('task-ratings*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('task-ratings.index') }}">
@@ -168,7 +170,13 @@
             <i class="fas fa-star-half-alt" aria-hidden="true"></i><span>Client Ratings</span>
         </a>
     </li>
+    <li class="side-menus {{ Request::is('team-kpi*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('team-kpi.index') }}">
+            <i class="fas fa-chart-line" aria-hidden="true"></i><span>Team KPI</span>
+        </a>
+    </li>
 @endif
+
 <li class="side-menus {{ Request::is('events*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('events.index') }}">
         <i class="fas fa-calendar-day"

@@ -63,6 +63,7 @@ Route::post('set-password', [AuthController::class, 'setPassword']);
 
 Route::get('tracker-notification', [HomeController::class, 'trackerNotification'])->name('tracker.notification.command');
 
+// Add this in the authenticated middleware group
 Route::middleware('auth', 'validate.user', 'xss', 'user.activated')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
     Route::get('/dashboard-total-hours', [HomeController::class, 'getTotalHours'])->name('dashboard-total-hours');
@@ -328,3 +329,7 @@ Route::middleware(['auth'])->group(function () {
 // Public client rating view (no auth required)
 Route::get('client/{client}/ratings/public/{token?}', [ClientRatingController::class, 'publicView'])
     ->name('client-ratings.public');
+
+// Profile routes - Add these
+Route::get('/my-profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+Route::get('/profile/{user}', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

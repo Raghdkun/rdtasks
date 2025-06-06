@@ -277,13 +277,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         return $query->where('is_active', 1);
     }
 
-    /**
-     * @return BelongsToMany
-     */
-    public function projects()
-    {
-        return $this->belongsToMany(Project::class);
-    }
+
 
     /**
      * @return BelongsTo
@@ -369,9 +363,19 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     /**
      * @return HasMany
      */
+    public function assignedTasks()
+    {
+        return $this->belongsToMany(Task::class, 'task_assignees', 'user_id', 'task_id');
+    }
+
     public function timeEntries()
     {
         return $this->hasMany(TimeEntry::class, 'user_id');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'project_users', 'user_id', 'project_id');
     }
 
     /**

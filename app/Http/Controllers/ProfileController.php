@@ -183,7 +183,7 @@ class ProfileController extends AppBaseController
             ];
         }
         
-        return $monthlyInsights;
+        return collect($monthlyInsights);
     }
     
     /**

@@ -1,3 +1,4 @@
+
 @can('manage_department')
     <li class="side-menus {{ Request::is('departments*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('departments.index') }}">
@@ -13,7 +14,13 @@
         </a>
     </li>
 @endcan
-
+@if(!getLoggedInUser()->hasRole('Admin'))
+<li class="side-menus {{ Request::is('tasks*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('kanban.index') }}">
+        <i class="fas fa-tasks " aria-hidden="true"></i><span>{{ __('messages.tasks') }}</span>
+    </a>
+   </li>
+@endif
 
 {{--@if(! getLoggedInUser()->hasRole('Admin'))--}}
 {{--    <li class="side-menus {{ Request::is('user-assign-projects*') ? 'active' : '' }}">--}}
@@ -35,16 +42,18 @@
         <i class="fas fa-user-circle" aria-hidden="true"></i><span>{{ __('My Profile') }}</span>
     </a>
 </li>
+
 @can('manage_all_tasks')
     <li class="side-menus nav-item dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-tasks"></i>
             <span>{{ __('messages.tasks') }}</span></a>
         <ul class="dropdown-menu side-menus">
-            <li class="side-menus {{ Request::is('tasks*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('kanban.index') }}">
-                    <i class="fas fa-tasks " aria-hidden="true"></i><span>{{ __('messages.tasks') }}</span>
-                </a>
-            </li>
+     
+       <li class="side-menus {{ Request::is('tasks*') ? 'active' : '' }}">
+           <a class="nav-link" href="{{ route('kanban.index') }}">
+               <i class="fas fa-tasks " aria-hidden="true"></i><span>{{ __('messages.tasks') }}</span>
+           </a>
+       </li>
             @can('manage_status')
                 <li class="side-menus {{ Request::is('status*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('status.index') }}">
@@ -55,6 +64,7 @@
         </ul>
     </li>
 @endcan
+
 
 @can('manage_calendar_view')
     <li class="side-menus {{ Request::is('time-entries-calendar*') ? 'active' : '' }}">

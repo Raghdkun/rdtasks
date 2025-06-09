@@ -3,12 +3,13 @@
     Login
 @endsection
 @section('css')
-    <link rel="stylesheet" href="{{ asset('web/css/web.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('web/css/style.css') }}" type="text/css">
+    
 @endsection
 @section('content')
     <div class="row login-container">
         <div class="col-md-6 img-box">
-            <img src="{{asset('assets/img/login-banner.png')}}" width="100%">
+            <img src="{{asset('assets/img/globallogo.png')}}" width="100%">
         </div>
         <div class="col-md-5">
             <div class="login-brand mb-0">

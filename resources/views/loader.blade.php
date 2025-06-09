@@ -1,11 +1,115 @@
 <div id="infyLoader" class="infy-loader">
-    <svg class="loader-position" width="150px" height="75px" viewBox="0 0 187.3 93.7"
-         preserveAspectRatio="xMidYMid meet">
-        <path stroke="#00c6ff" id="outline" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
-              stroke-miterlimit="10"
-              d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 				c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z"/>
-        <path id="outline-bg" opacity="0.05" fill="none" stroke="#f5981c" stroke-width="5" stroke-linecap="round"
-              stroke-linejoin="round" stroke-miterlimit="10"
-              d="				M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 				c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z"/>
-    </svg>
+    <div class="modern-loader">
+        <div class="logo-spinner">
+            <img src="{{ asset('assets/img/globallogo.png') }}" alt="Loading..." class="spinning-logo">
+        </div>
+        <div class="loading-text">
+            <span class="loading-dots">Loading</span>
+        </div>
+    </div>
 </div>
+
+<style>
+.infy-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modern-loader {
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.logo-spinner {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.spinning-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    animation: modernSpin 2s linear infinite;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.loading-text {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #6c757d;
+    margin-top: 15px;
+}
+
+.loading-dots::after {
+    content: '';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes modernSpin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes dots {
+    0%, 20% {
+        content: '';
+    }
+    40% {
+        content: '.';
+    }
+    60% {
+        content: '..';
+    }
+    80%, 100% {
+        content: '...';
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .infy-loader {
+    }
+    
+    .loading-text {
+        color: #adb5bd;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .spinning-logo {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .loading-text {
+        font-size: 14px;
+    }
+}
+</style>

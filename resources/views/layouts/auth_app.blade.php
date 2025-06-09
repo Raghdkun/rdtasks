@@ -28,8 +28,16 @@
             <div class="row">
                 <div class="col-md-12 col-lg-12">
                     @yield('content')
-                    <div class="simple-footer">
-                        {{ __('messages.common.all_rights_reserved_copyright') }} &copy; {{ date('Y') }} <span class="text-primary">{{ getAppName() }}</span>
+                    <div class="simple-footer text-center py-3">
+                        <div class="footer-content">
+                            <p class="mb-1 text-muted">
+                                {{ __('messages.common.all_rights_reserved_copyright') }} &copy; {{ date('Y') }} 
+                                <span class="text-primary fw-bold">{{ getAppName() }}</span>
+                            </p>
+                            <small class="text-muted">
+                                Powered by Innovation • Built with ❤️
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -37,11 +37,7 @@
     </a>
 </li>
 {{--@endcan--}}
-<li class="side-menus {{ Request::is('my-profile*') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('profile.index') }}">
-        <i class="fas fa-user-circle" aria-hidden="true"></i><span>{{ __('My Profile') }}</span>
-    </a>
-</li>
+
 
 @can('manage_all_tasks')
     <li class="side-menus nav-item dropdown">

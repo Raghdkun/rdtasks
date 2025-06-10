@@ -28,10 +28,15 @@
     </ul>
     <ul class="sidebar-menu">
         @include('layouts.menu')
-        <li class="side-menus {{ Request::is('task-reports*') ? 'active' : '' }}">
+        {{-- <li class="side-menus {{ Request::is('task-reports*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('task.reports') }}">
                 <i class="fas fa-file-export" aria-hidden="true"></i>
                 <span>Custom Task Reports</span>
+            </a>
+        </li> --}}
+        <li class="side-menus {{ Request::is('my-profile*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('profile.index') }}">
+                <i class="fas fa-user-circle" aria-hidden="true"></i><span>{{ __('My Profile') }}</span>
             </a>
         </li>
     </ul>

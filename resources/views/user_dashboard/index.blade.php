@@ -7,7 +7,7 @@
 @section('css')
     <style>
         .dashboard-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #660609 0%, #D81619 100%);
             color: white;
             border-radius: 15px;
             padding: 25px;
@@ -27,7 +27,7 @@
             border-radius: 25px;
         }
         .grade-a-plus { background-color: #47c363; color: white; }
-        .grade-a { background-color: #3abaf4; color: white; }
+        .grade-a { background-color: #D81619; color: white; }
         .grade-b-plus { background-color: #D81619; color: white; }
         .grade-b { background-color: #34395e; color: white; }
         .grade-c-plus { background-color: #ffa426; color: white; }
@@ -64,8 +64,8 @@
             margin: 2px;
         }
         .btn-period.active {
-            background-color: #667eea;
-            border-color: #667eea;
+            background-color: #D81619;
+            border-color: #D81619;
             color: white;
         }
     </style>

@@ -14,13 +14,13 @@
         </a>
     </li>
 @endcan
-@if(!getLoggedInUser()->hasRole('Admin'))
+{{-- @if(!getLoggedInUser()->hasRole('Admin'))
 <li class="side-menus {{ Request::is('tasks*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('kanban.index') }}">
         <i class="fas fa-tasks " aria-hidden="true"></i><span>{{ __('messages.tasks') }}</span>
     </a>
    </li>
-@endif
+@endif --}}
 
 {{--@if(! getLoggedInUser()->hasRole('Admin'))--}}
 {{--    <li class="side-menus {{ Request::is('user-assign-projects*') ? 'active' : '' }}">--}}
@@ -54,6 +54,7 @@
                <i class="fas fa-tasks " aria-hidden="true"></i><span>{{ __('messages.tasks') }}</span>
            </a>
        </li>
+       
             @can('manage_status')
                 <li class="side-menus {{ Request::is('status*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('status.index') }}">
@@ -197,3 +198,8 @@
            aria-hidden="true"></i><span>{{__('messages.events')}}</span>
     </a>
 </li>
+{{-- <li class="side-menus {{ Request::is('my-dashboard*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('user-dashboard.index') }}">
+        <i class="fas fa-tachometer-alt"></i><span>My Dashboard</span>
+    </a>
+</li> --}}

@@ -17,13 +17,13 @@
         <div class="no-results mt-3"><p>{{ __('messages.common.no_matching_records_found') }}</p></div>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-        <a href="{{ url('/') }}" class="small-sidebar-text">
+        <a href="{{ url('/my-dashboard') }}" class="small-sidebar-text">
             <img class="navbar-brand-full" src="{{ asset(getLogoUrl()) }}" width="50px" alt="{{ $settings['app_name'] }}"/>
         </a>
     </div>
     <ul class="sidebar-menu mt-3">
-        <li class="side-menus {{ Request::is('dashboard*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('home') }}"><i class="fas fa-tachometer-alt" aria-hidden="true"></i>
+        <li class="side-menus {{ Request::is('user-dashboard.index*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('user-dashboard.index') }}"><i class="fas fa-tachometer-alt" aria-hidden="true"></i>
                 <span>{{ __('messages.dashboard') }}</span></a></li>
     </ul>
     <ul class="sidebar-menu">

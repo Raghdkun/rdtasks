@@ -333,3 +333,4 @@ Route::get('client/{client}/ratings/public/{token?}', [ClientRatingController::c
 // Profile routes - Add these
 Route::get('/my-profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
 Route::get('/profile/{user}', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
+Route::get('/my-dashboard', [App\Http\Controllers\UserDashboardController::class, 'index'])->name('user-dashboard.index');

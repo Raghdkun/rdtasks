@@ -66,6 +66,46 @@
 </div>
 
 </body>
+<!-- Add this before closing body tag -->
+<!-- Task Rating Popup Modal -->
+<div class="modal fade" id="taskRatingModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Task Ratings</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="taskRatingContent">
+                <!-- Content loaded via AJAX -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div id="ratingActions">
+                    <!-- Action buttons loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showTaskRatingPopup(taskId) {
+    $('#taskRatingModal').modal('show');
+    $('#taskRatingContent').html('<div class="text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</div>');
+    $('#ratingActions').html('');
+    
+    $.get(`/task-ratings/${taskId}/popup`)
+        .done(function(data) {
+            $('#taskRatingContent').html(data.content);
+            $('#ratingActions').html(data.actions);
+        })
+        .fail(function() {
+            $('#taskRatingContent').html('<div class="alert alert-danger">Error loading rating details</div>');
+        });
+}
+</script>
 <script src="{{ asset('assets/js/push.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>

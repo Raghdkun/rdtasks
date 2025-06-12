@@ -334,3 +334,17 @@ Route::get('client/{client}/ratings/public/{token?}', [ClientRatingController::c
 Route::get('/my-profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
 Route::get('/profile/{user}', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
 Route::get('/my-dashboard', [App\Http\Controllers\UserDashboardController::class, 'index'])->name('user-dashboard.index');
+
+// Add these routes
+Route::get('/ratings', [App\Http\Controllers\RatingsController::class, 'index'])->name('ratings.index');
+Route::get('/ratings/task/{task}/details', [App\Http\Controllers\RatingsController::class, 'getTaskRatingDetails'])->name('ratings.task.details');
+Route::get('/task-ratings/{task}/popup', [App\Http\Controllers\TaskRatingController::class, 'getPopupContent'])->name('task-ratings.popup');
+
+// Client rating routes
+Route::get('/client-ratings', [App\Http\Controllers\ClientRatingController::class, 'index'])->name('client-ratings.index');
+Route::get('/client-ratings/create', [App\Http\Controllers\ClientRatingController::class, 'create'])->name('client-ratings.create');
+Route::post('/client-ratings', [App\Http\Controllers\ClientRatingController::class, 'store'])->name('client-ratings.store');
+Route::get('/client-ratings/{clientRating}/edit', [App\Http\Controllers\ClientRatingController::class, 'edit'])->name('client-ratings.edit');
+Route::put('/client-ratings/{clientRating}', [App\Http\Controllers\ClientRatingController::class, 'update'])->name('client-ratings.update');
+// Add this line after the existing user-dashboard route
+Route::get('/my-dashboard/rating-rules', [App\Http\Controllers\UserDashboardController::class, 'ratingRules'])->name('user-dashboard.rating-rules');

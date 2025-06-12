@@ -86,8 +86,8 @@ class TeamKpiController extends AppBaseController
             $taskRatingData = $taskRatingsQuery->first();
             $clientRatingData = $clientRatingsQuery->first();
 
-            // Calculate percentages (Task Rating: max 10 = 50%, Client Rating: max 50 = 50%)
-            $taskPercentage = $taskRatingData->avg_rating ? ($taskRatingData->avg_rating / 10) * 50 : 0;
+            // Calculate percentages (Task Rating: max 5 = 50%, Client Rating: max 50 = 50%)
+            $taskPercentage = $taskRatingData->avg_rating ? ($taskRatingData->avg_rating / 5) * 50 : 0;
             $clientPercentage = $clientRatingData->avg_rating ? ($clientRatingData->avg_rating / 50) * 50 : 0;
             $totalPercentage = $taskPercentage + $clientPercentage;
 

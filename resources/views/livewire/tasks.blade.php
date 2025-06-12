@@ -133,6 +133,28 @@
                                            title="{{__('messages.common.details')}}">
                                             <i class="fas fa-info"></i>
                                         </a>
+                                        
+                                        <!-- Add Rating Icon -->
+                                        @php
+                                            $hasTaskRating = $task->rating()->exists();
+                                            $hasClientRating = $task->clientRatings()->exists();
+                                            $ratingClass = 'has-none';
+                                            $ratingTitle = 'No ratings';
+                                            
+                                            if ($hasTaskRating && $hasClientRating) {
+                                                $ratingClass = 'has-both';
+                                                $ratingTitle = 'Has both task and client ratings';
+                                            } elseif ($hasTaskRating || $hasClientRating) {
+                                                $ratingClass = 'has-partial';
+                                                $ratingTitle = $hasTaskRating ? 'Has task rating only' : 'Has client rating only';
+                                            }
+                                        @endphp
+                                        
+                                        <a href="#" class="rating-icon {{ $ratingClass }}" 
+                                           onclick="showTaskRatingPopup({{ $task->id }})"
+                                           title="{{ $ratingTitle }}" data-toggle="tooltip">
+                                            <i class="fas fa-star"></i>
+                                        </a>
                                         <div class="d-sm-inline-block d-lg-none">
                                             <a href="#" data-toggle="dropdown"
                                                class="more-info badge badge-info mr-3 p-2">

@@ -93,12 +93,12 @@
                             
                             @foreach($criteria as $key => $label)
                                 <div class="form-group">
-                                    <label for="{{ $key }}">{{ $label }} (1-10 scale)</label>
+                                    <label for="{{ $key }}">{{ $label }} (1-5 scale)</label>
                                     <div class="star-rating" data-rating="{{ $key }}">
-                                        @for($i = 1; $i <= 10; $i++)
+                                        @for($i = 1; $i <= 5; $i++)
                                             <span class="star {{ $i <= $rating->$key ? 'active' : '' }}" data-value="{{ $i }}">★</span>
                                         @endfor
-                                        <span class="rating-value">{{ $rating->$key }}/10</span>
+                                        <span class="rating-value">{{ $rating->$key }}/5</span>
                                     </div>
                                     <input type="hidden" name="{{ $key }}" value="{{ $rating->$key }}" id="{{ $key }}">
                                 </div>
@@ -142,7 +142,7 @@
                 $stars.on('click', function() {
                     const value = $(this).data('value');
                     $hiddenInput.val(value);
-                    $valueDisplay.text(`${value}/10`);
+                    $valueDisplay.text(`${value}/5`);
                     
                     $stars.removeClass('active');
                     $stars.slice(0, value).addClass('active');

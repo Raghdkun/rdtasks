@@ -55,7 +55,7 @@
                             <!-- Task Information -->
                             <div class="task-info">
                                 <h5>{{ $task->title }}</h5>
-                                <p class="text-muted mb-2">{{ $task->description }}</p>
+                                {{-- <p class="text-muted mb-2">{{ $task->description }}</p> --}}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <strong>Project:</strong> {{ $task->project->name ?? 'N/A' }}
@@ -80,13 +80,13 @@
                                     <div class="rating-container">
                                         <label class="form-label font-weight-bold">{{ $label }}</label>
                                         <div class="rating-stars" data-rating="{{ $key }}">
-                                            @for($i = 1; $i <= 10; $i++)
+                                            @for($i = 1; $i <= 5; $i++)
                                                 <span class="rating-star" data-value="{{ $i }}">★</span>
                                             @endfor
-                                            <span class="rating-value">0/10</span>
+                                            <span class="rating-value">0/5</span>
                                         </div>
                                         <input type="hidden" name="{{ $key }}" id="{{ $key }}" value="0" required>
-                                        <small class="text-muted">Click stars to rate (1-10)</small>
+                                        <small class="text-muted">Click stars to rate (1-5)</small>
                                     </div>
                                 @endforeach
 
@@ -135,7 +135,7 @@ $(document).ready(function() {
         });
         
         // Update rating value display
-        container.find('.rating-value').text(value + '/10');
+        container.find('.rating-value').text(value + '/5');
     });
     
     // Handle star hover effects
@@ -152,7 +152,7 @@ $(document).ready(function() {
         });
         
         // Show hover value
-        container.find('.rating-value').text(value + '/10');
+        container.find('.rating-value').text(value + '/5');
     });
     
     $('.rating-stars').on('mouseleave', function() {
@@ -169,7 +169,7 @@ $(document).ready(function() {
         });
         
         // Restore actual value
-        container.find('.rating-value').text(currentValue + '/10');
+        container.find('.rating-value').text(currentValue + '/5');
     });
     
     // Form submission

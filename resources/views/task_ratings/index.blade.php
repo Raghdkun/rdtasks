@@ -209,10 +209,9 @@
                                             <td>
                                                 @if ($task->rating)
                                                     <div class="rating-display">
-                                                        <span
-                                                            class="avg-rating">{{ $task->rating->average_rating }}/10</span>
+                                                        <span class="avg-rating">{{ $task->rating->average_rating }}/5</span>
                                                         <div class="rating-stars">
-                                                            @for ($i = 1; $i <= 10; $i++)
+                                                            @for ($i = 1; $i <= 5; $i++)
                                                                 @if ($i <= $task->rating->average_rating)
                                                                     <i class="fas fa-star"></i>
                                                                 @else

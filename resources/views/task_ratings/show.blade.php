@@ -56,9 +56,11 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="card-title mb-0">Task Rating Details</h5>
                         <div>
-                            <a href="{{ route('task-ratings.edit', $task) }}" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i> Edit Rating
-                            </a>
+                            @role('admin')
+                                <a href="{{ route('task-ratings.edit', $task) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit Rating
+                                </a>
+                            @endrole
                             <a href="{{ route('task-ratings.index') }}" class="btn btn-secondary btn-sm">
                                 <i class="fas fa-arrow-left"></i> Back to List
                             </a>
@@ -77,9 +79,9 @@
 
                         <div class="overall-rating">
                             <h3>Overall Rating</h3>
-                            <h1>{{ $rating->average_rating }}/10</h1>
+                            <h1>{{ $rating->average_rating }}/5</h1>
                             <div class="rating-stars">
-                                @for($i = 1; $i <= 10; $i++)
+                                @for($i = 1; $i <= 5; $i++)
                                     @if($i <= $rating->average_rating)
                                         <i class="fas fa-star"></i>
                                     @else
@@ -115,9 +117,9 @@
                                         <div class="rating-item">
                                             <span>{{ $label }}</span>
                                             <div>
-                                                <span class="rating-value">{{ $rating->$key }}/10</span>
+                                                <span class="rating-value">{{ $rating->$key }}/5</span>
                                                 <div class="rating-stars ml-2">
-                                                    @for($i = 1; $i <= 10; $i++)
+                                                    @for($i = 1; $i <= 5; $i++)
                                                         @if($i <= $rating->$key)
                                                             <i class="fas fa-star"></i>
                                                         @else

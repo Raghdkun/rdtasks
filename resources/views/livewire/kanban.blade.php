@@ -63,6 +63,30 @@
                                                         <i class="far fa-comment-alt"></i>
                                                         {{ $task->comments->count() }}
                                                     </div>
+                                                    
+                                                    <!-- Add Rating Icon -->
+                                                    @php
+                                                        $hasTaskRating = $task->rating()->exists();
+                                                        $hasClientRating = $task->clientRatings()->exists();
+                                                        $ratingClass = 'has-none';
+                                                        $ratingTitle = 'No ratings';
+                                                        
+                                                        if ($hasTaskRating && $hasClientRating) {
+                                                            $ratingClass = 'has-both';
+                                                            $ratingTitle = 'Has both ratings';
+                                                        } elseif ($hasTaskRating || $hasClientRating) {
+                                                            $ratingClass = 'has-partial';
+                                                            $ratingTitle = $hasTaskRating ? 'Task rating only' : 'Client rating only';
+                                                        }
+                                                    @endphp
+                                                    
+                                                    <div class="ratings ml-3">
+                                                        <a href="#" class="rating-icon {{ $ratingClass }}" 
+                                                           onclick="showTaskRatingPopup({{ $task->id }})"
+                                                           title="{{ $ratingTitle }}" data-toggle="tooltip">
+                                                            <i class="fas fa-star"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

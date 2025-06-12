@@ -215,7 +215,7 @@
                                                 <br><small class="text-muted">{{ $data['user']->email }}</small>
                                             </td>
                                             <td>
-                                                <strong>{{ $data['task_avg_rating'] }}/10</strong>
+                                                <strong>{{ $data['task_avg_rating'] }}/5</strong>
                                                 <br><small class="text-muted">({{ $data['task_total_ratings'] }} tasks)</small>
                                             </td>
                                             <td>

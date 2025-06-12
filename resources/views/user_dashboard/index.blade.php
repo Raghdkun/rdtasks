@@ -78,11 +78,17 @@
             <div class="col-12">
                 <div class="dashboard-card">
                     <div class="row align-items-center">
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <h2 class="mb-0"><i class="fas fa-user-chart"></i> My Performance Dashboard</h2>
                             <p class="mb-0">{{ $dashboardData['summary_stats']['period_label'] }}</p>
+                            <div class="mt-2">
+                                <a href="{{ route('user-dashboard.rating-rules') }}" class="btn btn-light btn-sm">
+                                    <i class="fas fa-star mr-1"></i> Rating Rules
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-right">
+                        
+                        <div class="col-md-6 text-right">
                             <span class="performance-badge grade-{{ strtolower(str_replace('+', '-plus', $dashboardData['kpi_data']['performance_grade'])) }}">
                                 {{ $dashboardData['kpi_data']['performance_grade'] }} Grade
                             </span>

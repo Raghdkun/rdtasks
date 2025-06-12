@@ -262,4 +262,12 @@ class UserDashboardController extends AppBaseController
     {
         return $dateRange['start']->format('M j, Y') . ' - ' . $dateRange['end']->format('M j, Y');
     }
+    
+    /**
+     * Display the Rating Rules page
+     */
+    public function ratingRules()
+    {
+        return view('user_dashboard.rating_rules');
+    }
 }

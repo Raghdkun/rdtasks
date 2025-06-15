@@ -80,12 +80,34 @@
 @endcan
 
 @can('manage_users')
-    <li class="side-menus {{ Request::is('users*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('users.index') }}">
-            <i class="fas fa-users " aria-hidden="true"></i><span>{{ __('messages.users') }}</span>
-        </a>
+<li class="side-menus {{ Request::is('users*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('users.index') }}">
+        <i class="fas fa-users " aria-hidden="true"></i><span>{{ __('messages.users') }}</span>
+    </a>
+</li>
+    <li class="side-menus nav-item dropdown">
+        <a href="#" class="nav-link has-dropdown"><i class="fas fa-calendar-times"></i>
+            <span>Days Off Management</span></a>
+        <ul class="dropdown-menu side-menus">
+            <li class="side-menus {{ Request::is('days-off-settings*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('days-off-settings.index') }}">
+                    <i class="fas fa-cog" aria-hidden="true"></i><span>Settings</span>
+                </a>
+            </li>
+            <li class="side-menus {{ Request::is('days-off-admin*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('days-off-admin.index') }}">
+                    <i class="fas fa-tasks" aria-hidden="true"></i><span>Manage Requests</span>
+                </a>
+            </li>
+        </ul>
     </li>
 @endcan
+
+<li class="side-menus {{ Request::is('user-days-off*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('user-days-off.index') }}">
+        <i class="fas fa-calendar-check" aria-hidden="true"></i><span>My Days Off</span>
+    </a>
+</li>
 @can('archived_users')
 <li class="side-menus {{ Request::is('archived-users*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('archived-users') }}">
@@ -183,7 +205,7 @@
     </li>
     <li class="side-menus {{ Request::is('team-kpi*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('team-kpi.index') }}">
-            <i class="fas fa-chart-line" aria-hidden="true"></i><span>Team KPI</span>
+            <i class="fas fa-clipboard-list" aria-hidden="true"></i><span>Team KPI</span>
         </a>
     </li>
 @endif
@@ -192,6 +214,13 @@
     <a class="nav-link" href="{{ route('events.index') }}">
         <i class="fas fa-calendar-day"
            aria-hidden="true"></i><span>{{__('messages.events')}}</span>
+    </a>
+</li>
+<!-- Add this menu item -->
+<li class="nav-item">
+    <a href="{{ route('days-off-public.index') }}" class="nav-link">
+        <i class="fas fa-calendar-alt"></i>
+        <span>{{ __('Team Schedule') }}</span>
     </a>
 </li>
 {{-- <li class="side-menus {{ Request::is('my-dashboard*') ? 'active' : '' }}">

@@ -28,6 +28,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskRatingController;
 use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\ClientRatingController;
+use App\Http\Controllers\UserDaysOffController;
+use App\Http\Controllers\DaysOffSettingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -348,3 +350,19 @@ Route::get('/client-ratings/{clientRating}/edit', [App\Http\Controllers\ClientRa
 Route::put('/client-ratings/{clientRating}', [App\Http\Controllers\ClientRatingController::class, 'update'])->name('client-ratings.update');
 // Add this line after the existing user-dashboard route
 Route::get('/my-dashboard/rating-rules', [App\Http\Controllers\UserDashboardController::class, 'ratingRules'])->name('user-dashboard.rating-rules');
+
+// Days Off Settings (Admin)
+Route::middleware(['auth', 'can:manage_users'])->group(function () {
+    Route::resource('days-off-settings', DaysOffSettingController::class)->only(['index', 'store', 'update']);
+    Route::get('days-off-admin', [UserDaysOffController::class, 'adminIndex'])->name('days-off-admin.index');
+    Route::patch('days-off-admin/{userDaysOff}/approve', [UserDaysOffController::class, 'approve'])->name('days-off-admin.approve');
+    Route::patch('days-off-admin/{userDaysOff}/reject', [UserDaysOffController::class, 'reject'])->name('days-off-admin.reject');
+});
+
+// User Days Off
+Route::middleware(['auth'])->group(function () {
+    Route::resource('user-days-off', UserDaysOffController::class)->only(['index', 'store']);
+});
+Route::get('days-off-admin/{userDaysOff}/edit', [UserDaysOffController::class, 'edit'])->name('days-off-admin.edit');
+Route::patch('days-off-admin/{userDaysOff}', [UserDaysOffController::class, 'update'])->name('days-off-admin.update');
+Route::get('days-off-schedule', [UserDaysOffController::class, 'publicIndex'])->name('days-off-public.index');

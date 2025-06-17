@@ -25,14 +25,39 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="task_id" class="form-label">Task *</label>
+                                    
+                                    <!-- Task Search Bar -->
+                                    <div class="task-search-container mb-2">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                            <input type="text" id="task-search" class="form-control" placeholder="Search completed and rated tasks...">
+                                            <button type="button" id="clear-search" class="btn btn-outline-secondary">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Task Dropdown -->
                                     <select name="task_id" id="task_id" class="form-control @error('task_id') is-invalid @enderror" required>
                                         <option value="">Select Task</option>
                                         @foreach($tasks as $task)
-                                            <option value="{{ $task->id }}" data-client-id="{{ $task->project->client_id }}" {{ old('task_id') == $task->id ? 'selected' : '' }}>
-                                                {{ $task->title }} ({{ $task->project->name }})
-                                            </option>
+                                            @if($task->status === 'completed' && $task->ratings->count() > 0)
+                                                <option value="{{ $task->id }}" 
+                                                        data-client-id="{{ $task->project->client_id }}" 
+                                                        data-search-text="{{ strtolower($task->title . ' ' . $task->project->name) }}"
+                                                        {{ old('task_id') == $task->id ? 'selected' : '' }}>
+                                                    {{ $task->title }} ({{ $task->project->name }}) 
+                                                    <span class="text-muted">- {{ $task->ratings->count() }} rating(s)</span>
+                                                </option>
+                                            @endif
                                         @endforeach
                                     </select>
+                                    
+                                    <!-- No Results Message -->
+                                    <div id="no-tasks-message" class="text-muted mt-2" style="display: none;">
+                                        <small><i class="fa fa-info-circle"></i> No completed and rated tasks found matching your search.</small>
+                                    </div>
+                                    
                                     @error('task_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -163,6 +188,40 @@
 .form-range {
     flex: 1;
 }
+
+/* Task Search Styles */
+.task-search-container {
+    position: relative;
+}
+
+.task-search-container .input-group-text {
+    background-color: #f8f9fa;
+    border-color: #ced4da;
+}
+
+#task-search {
+    border-color: #ced4da;
+}
+
+#task-search:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+#clear-search {
+    border-left: none;
+}
+
+.task-option-hidden {
+    display: none !important;
+}
+
+#no-tasks-message {
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    border: 1px solid #dee2e6;
+}
 </style>
 
 <script>
@@ -173,6 +232,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const starDisplay = document.getElementById('star-display');
     const taskSelect = document.getElementById('task_id');
     const clientSelect = document.getElementById('client_id');
+    const taskSearch = document.getElementById('task-search');
+    const clearSearch = document.getElementById('clear-search');
+    const noTasksMessage = document.getElementById('no-tasks-message');
+
+    // Store all task options for filtering
+    const allTaskOptions = Array.from(taskSelect.options).slice(1); // Exclude the first "Select Task" option
 
     function updateRatingDisplay(value) {
         ratingValue.textContent = value;
@@ -187,6 +252,56 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         starDisplay.innerHTML = starHtml;
     }
+
+    // Task search functionality
+    function filterTasks() {
+        const searchTerm = taskSearch.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        allTaskOptions.forEach(option => {
+            const searchText = option.dataset.searchText || '';
+            const shouldShow = searchTerm === '' || searchText.includes(searchTerm);
+            
+            if (shouldShow) {
+                option.style.display = '';
+                option.classList.remove('task-option-hidden');
+                visibleCount++;
+            } else {
+                option.style.display = 'none';
+                option.classList.add('task-option-hidden');
+            }
+        });
+
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm !== '') {
+            noTasksMessage.style.display = 'block';
+        } else {
+            noTasksMessage.style.display = 'none';
+        }
+
+        // Reset task selection if current selection is hidden
+        if (taskSelect.value && taskSelect.options[taskSelect.selectedIndex].classList.contains('task-option-hidden')) {
+            taskSelect.value = '';
+            clientSelect.value = '';
+        }
+    }
+
+    // Clear search functionality
+    function clearTaskSearch() {
+        taskSearch.value = '';
+        filterTasks();
+        taskSearch.focus();
+    }
+
+    // Event listeners
+    taskSearch.addEventListener('input', filterTasks);
+    taskSearch.addEventListener('keyup', function(e) {
+        if (e.key === 'Escape') {
+            clearTaskSearch();
+        }
+    });
+    
+    clearSearch.addEventListener('click', clearTaskSearch);
 
     slider.addEventListener('input', function() {
         numberInput.value = this.value;
@@ -208,6 +323,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize display
     updateRatingDisplay(numberInput.value);
+    
+    // Initialize task filtering
+    filterTasks();
 });
 </script>
 @endsection

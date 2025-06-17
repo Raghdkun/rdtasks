@@ -77,6 +77,12 @@
         .next-week .week-header {
             background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
         }
+        .filter-controls {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
     </style>
 @endsection
 @section('content')
@@ -88,6 +94,22 @@
             </h1>
         </div>
         <div class="section-body">
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <form method="GET" action="{{ route('days-off-public.index') }}" class="row align-items-end">
+                    <div class="col-md-4">
+                        <div class="form-group mb-0">
+                            <label for="view_mode">View Mode</label>
+                            <select name="view_mode" id="view_mode" class="form-control" onchange="this.form.submit()">
+                                <option value="both" {{ request('view_mode', 'both') == 'both' ? 'selected' : '' }}>Both Weeks</option>
+                                <option value="current" {{ request('view_mode') == 'current' ? 'selected' : '' }}>Current Week Only</option>
+                                <option value="next" {{ request('view_mode') == 'next' ? 'selected' : '' }}>Next Week Only</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
             <!-- Legend -->
             <div class="legend">
                 <h6 class="mb-3"><i class="fas fa-info-circle mr-2"></i>Legend</h6>
@@ -101,7 +123,12 @@
                 </div>
             </div>
 
+            @php
+                $viewMode = request('view_mode', 'both');
+            @endphp
+
             <!-- Current Week -->
+            @if($viewMode == 'both' || $viewMode == 'current')
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card days-off-card current-week">
@@ -115,12 +142,12 @@
                             </p>
                         </div>
                         <div class="day-grid">
-                            @foreach($weekDays as $dayIndex => $dayName)
+                            @foreach($weekDays as $dayNum => $dayName)
                                 <div class="day-cell">
                                     <div class="day-name">{{ $dayName }}</div>
                                     @php
-                                        $dayRequests = $currentWeekRequests->filter(function($request) use ($dayIndex) {
-                                            return in_array($dayIndex + 1, $request->selected_days);
+                                        $dayRequests = $currentWeekRequests->filter(function($request) use ($dayNum) {
+                                            return in_array($dayNum, $request->selected_days);
                                         });
                                     @endphp
                                     @if($dayRequests->count() > 0)
@@ -136,8 +163,10 @@
                     </div>
                 </div>
             </div>
+            @endif
 
             <!-- Next Week -->
+            @if($viewMode == 'both' || $viewMode == 'next')
             <div class="row">
                 <div class="col-12">
                     <div class="card days-off-card next-week">
@@ -151,12 +180,12 @@
                             </p>
                         </div>
                         <div class="day-grid">
-                            @foreach($weekDays as $dayIndex => $dayName)
+                            @foreach($weekDays as $dayNum => $dayName)
                                 <div class="day-cell">
                                     <div class="day-name">{{ $dayName }}</div>
                                     @php
-                                        $dayRequests = $nextWeekRequests->filter(function($request) use ($dayIndex) {
-                                            return in_array($dayIndex + 1, $request->selected_days);
+                                        $dayRequests = $nextWeekRequests->filter(function($request) use ($dayNum) {
+                                            return in_array($dayNum, $request->selected_days);
                                         });
                                     @endphp
                                     @if($dayRequests->count() > 0)
@@ -172,6 +201,7 @@
                     </div>
                 </div>
             </div>
+            @endif
 
             <!-- Quick Stats -->
             <div class="row mt-4">

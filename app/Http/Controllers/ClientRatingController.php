@@ -16,7 +16,8 @@ class ClientRatingController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ClientRating::with(['task.project', 'client', 'ratedBy', 'editedBy']);
+        $query = ClientRating::with(['task.project', 'client', 'ratedBy', 'editedBy'])
+            ->whereHas('task'); // Only get ratings that have valid tasks
 
         // Apply filters
         if ($request->filled('client_id')) {

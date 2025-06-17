@@ -53,6 +53,7 @@
                     <!-- Mobile Card View -->
                     <div class="d-block d-lg-none">
                         @forelse($clientRatings as $rating)
+                            @if($rating->task) {{-- Add null check --}}
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -77,7 +78,49 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <p class="text-muted small mb-2">{{ $rating->task->project->name }} • {{ $rating->client->name }}</p>
+                                    <p class="text-muted small mb-2">{{ $rating->task->project->name ?? 'Unknown Project' }} • {{ $rating->client->name }}</p>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-primary me-2">{{ $rating->rating }}/50</span>
+                                        <div class="rating-stars">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($i <= round(($rating->rating / 50) * 5))
+                                                    <i class="fas fa-star text-warning"></i>
+                                                @else
+                                                    <i class="far fa-star text-muted"></i>
+                                                @endif
+                                            @endfor
+                                        </div>
+                                    </div>
+                                    @if($rating->comment)
+                                        <p class="small text-muted mb-2">{{ Str::limit($rating->comment, 100) }}</p>
+                                    @endif
+                                    <small class="text-muted">By {{ $rating->ratedBy->name }} • {{ $rating->created_at->format('M d, Y') }}</small>
+                                </div>
+                            </div>
+                            @else
+                            {{-- Handle case where task is null --}}
+                            <div class="card mb-3 border-warning">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 class="card-title mb-0 text-warning">Task Not Found (ID: {{ $rating->task_id }})</h6>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                <i class="fa fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <form method="POST" action="{{ route('client-ratings.destroy', $rating) }}" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item text-danger" onclick="return confirm('This rating references a deleted task. Are you sure you want to delete this rating?')">
+                                                            <i class="fa fa-trash"></i> Delete Orphaned Rating
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted small mb-2">Deleted Task • {{ $rating->client->name }}</p>
                                     <div class="d-flex align-items-center mb-2">
                                         <span class="badge bg-primary me-2">{{ $rating->rating }}/50</span>
                                         <div class="rating-stars">

@@ -49,8 +49,10 @@ class ClientRatingController extends Controller
      */
     public function create()
     {
-        $tasks = Task::with(['project', 'client'])
+        $tasks = Task::with(['project', 'client', 'rating'])
             ->whereHas('project.client')
+            ->where('status', Task::STATUS_COMPLETED) // Only completed tasks
+            ->whereHas('rating') // Only tasks that have task ratings
             ->whereDoesntHave('clientRatings') // Exclude tasks that already have client ratings
             ->orderBy('title')
             ->get();

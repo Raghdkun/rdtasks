@@ -53,7 +53,7 @@
                     <!-- Mobile Card View -->
                     <div class="d-block d-lg-none">
                         @forelse($clientRatings as $rating)
-                            @if($rating->task) {{-- Add null check --}}
+                            @if($rating->task)
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -98,7 +98,6 @@
                                 </div>
                             </div>
                             @else
-                            {{-- Handle case where task is null --}}
                             <div class="card mb-3 border-warning">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
@@ -122,7 +121,7 @@
                                     </div>
                                     <p class="text-muted small mb-2">Deleted Task • {{ $rating->client->name }}</p>
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="badge bg-primary me-2">{{ $rating->rating }}/50</span>
+                                        <span class="badge bg-warning me-2">{{ $rating->rating }}/50</span>
                                         <div class="rating-stars">
                                             @for($i = 1; $i <= 5; $i++)
                                                 @if($i <= round(($rating->rating / 50) * 5))
@@ -139,6 +138,7 @@
                                     <small class="text-muted">By {{ $rating->ratedBy->name }} • {{ $rating->created_at->format('M d, Y') }}</small>
                                 </div>
                             </div>
+                            @endif
                         @empty
                             <div class="alert alert-info text-center">
                                 <h5>No Ratings Found</h5>
@@ -164,19 +164,23 @@
                             </thead>
                             <tbody>
                                 @forelse($clientRatings as $rating)
-                                    <tr>
+                                    <tr class="{{ !$rating->task ? 'table-warning' : '' }}">
                                         <td>
+                                            @if($rating->task)
                                             <div class="d-flex align-items-center">
                                                 <span class="me-2">{{ $rating->task->title }}</span>
                                                 <button class="btn btn-sm btn-outline-secondary" onclick="copyTaskLink('{{ route('tasks.show', $rating->task->id) }}')" title="Copy Task Link">
                                                     <i class="fa fa-link"></i>
                                                 </button>
                                             </div>
+                                            @else
+                                            <span class="text-warning">Task Not Found (ID: {{ $rating->task_id }})</span>
+                                            @endif
                                         </td>
-                                        <td>{{ $rating->task->project->name }}</td>
+                                        <td>{{ $rating->task->project->name ?? 'Unknown Project' }}</td>
                                         <td>{{ $rating->client->name }}</td>
                                         <td>
-                                            <span class="badge bg-primary">{{ $rating->rating }}/50</span>
+                                            <span class="badge {{ $rating->task ? 'bg-primary' : 'bg-warning' }}">{{ $rating->rating }}/50</span>
                                             <div class="rating-stars">
                                                 @for($i = 1; $i <= 5; $i++)
                                                     @if($i <= round(($rating->rating / 50) * 5))
@@ -192,13 +196,15 @@
                                         <td>{{ $rating->created_at->format('M d, Y') }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
+                                                @if($rating->task)
                                                 <a href="{{ route('client-ratings.edit', $rating) }}" class="btn btn-sm btn-info" title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
+                                                @endif
                                                 <form method="POST" action="{{ route('client-ratings.destroy', $rating) }}" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')" title="Delete">
+                                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('{{ $rating->task ? 'Are you sure?' : 'This rating references a deleted task. Are you sure you want to delete this rating?' }}')" title="Delete">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -207,7 +213,12 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">No client ratings found.</td>
+                                        <td colspan="8" class="text-center">
+                                            <div class="alert alert-info mb-0">
+                                                <h5>No Ratings Found</h5>
+                                                <p class="mb-0">No client ratings match your current filters.</p>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>

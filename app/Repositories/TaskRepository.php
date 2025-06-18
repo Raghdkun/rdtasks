@@ -499,7 +499,7 @@ class TaskRepository extends BaseRepository
         $task->update([
             'status' => $input['status'],
         ]);
-
+    
         return true;
     }
 

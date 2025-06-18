@@ -280,18 +280,21 @@
     <script src="{{ asset('assets/js/third-party/dataTables.bootstrap4.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            // Remove or comment out the DataTable initialization (lines 275-285)
-            // $('#ratingsTable').DataTable({
-            //     "searching": false,
-            //     "paging": false,
-            //     "info": false,
-            //     "ordering": true,
-            //     "order": [[4, "desc"]],
-            //     "columnDefs": [{
-            //         "orderable": false,
-            //         "targets": [5, 6, 7]
-            //     }]
-            // });
+            // Initialize DataTable with search disabled (we're using custom filters)
+            $('#ratingsTable').DataTable({
+                "searching": false,
+                "paging": false,
+                "info": false,
+                "ordering": true,
+                "order": [
+                    [4, "desc"]
+                ], // Sort by completed date descending
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": [5, 6, 7]
+                    } // Disable sorting for rating, status, and actions columns
+                ]
+            });
 
             // Auto-submit form on input change (with debounce for text inputs)
             let searchTimeout;

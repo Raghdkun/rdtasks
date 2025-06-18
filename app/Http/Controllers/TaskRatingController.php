@@ -23,9 +23,8 @@ class TaskRatingController extends AppBaseController
     public function index(Request $request)
     {
         // Build the query for completed tasks
-        // In the index method, line 25
         $query = Task::with(['project', 'taskAssignee', 'rating', 'rating.ratedBy', 'rating.editedBy'])
-            ->where('status', 1)  // Make sure your completed tasks have status = 1
+            ->where('status', 1)
             ->whereNotNull('completed_on');
 
         // Apply filters

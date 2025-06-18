@@ -496,9 +496,19 @@ class TaskRepository extends BaseRepository
     public function updateTaskStatus($id, $input)
     {
         $task = Task::findOrFail($id);
-        $task->update([
-            'status' => $input['status'],
-        ]);
+        
+        $updateData = ['status' => $input['status']];
+        
+        // If task is being marked as completed, set the completed_on date
+        if ($input['status'] == Task::STATUS_COMPLETED) {
+            $updateData['completed_on'] = now();
+        }
+        // If task is being changed from completed to another status, clear the completed_on date
+        elseif ($task->status == Task::STATUS_COMPLETED && $input['status'] != Task::STATUS_COMPLETED) {
+            $updateData['completed_on'] = null;
+        }
+        
+        $task->update($updateData);
     
         return true;
     }

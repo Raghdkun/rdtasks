@@ -277,8 +277,8 @@ class TaskRepository extends BaseRepository
     public function updateStatus($id)
     {
         $task = Task::findOrFail($id);
-        $status = ($task->status == Task::$status['STATUS_COMPLETED']) ? Task::$status['STATUS_ACTIVE'] : Task::$status['STATUS_COMPLETED'];
-        $completedOn = $status == Task::$status['STATUS_COMPLETED'] ? Carbon::now() : null;
+        $status = ($task->status == Task::STATUS_COMPLETED) ? Task::STATUS_PENDING : Task::STATUS_COMPLETED;
+        $completedOn = $status == Task::STATUS_COMPLETED ? Carbon::now() : null;
         $task->update([
             'status' => $status,
             'completed_on' => $completedOn,
@@ -523,6 +523,18 @@ class TaskRepository extends BaseRepository
         $task = Task::findOrFail($id);
 
         $input['description'] = is_null($input['description']) ? '' : $input['description'];
+
+        // Handle completed_on field when status changes
+        if (isset($input['status'])) {
+            // If task is being marked as completed, set the completed_on date
+            if ($input['status'] == Task::STATUS_COMPLETED) {
+                $input['completed_on'] = now();
+            }
+            // If task is being changed from completed to another status, clear the completed_on date
+            elseif ($task->status == Task::STATUS_COMPLETED && $input['status'] != Task::STATUS_COMPLETED) {
+                $input['completed_on'] = null;
+            }
+        }
 
         $task->update($input);
 

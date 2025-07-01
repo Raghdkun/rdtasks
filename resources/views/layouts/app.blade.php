@@ -164,6 +164,7 @@ function showTaskRatingPopup(taskId) {
 @yield('scripts')
 <script src="{{ asset('assets/js/iziToast.min.js') }}"></script>
 <script src="{{ mix('assets/js/profile/profile.js') }}"></script>
+@stack('scripts')
 <script>
     $(document).ready(function () {
         $('.alert').delay(4000).slideUp(300);

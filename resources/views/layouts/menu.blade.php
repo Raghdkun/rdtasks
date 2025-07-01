@@ -74,7 +74,35 @@
         </li>
     </ul>
 </li>
-
+{{-- Employee Clocking Dropdown --}}
+<li class="side-menus nav-item dropdown">
+    <a href="#" class="nav-link has-dropdown"><i class="fas fa-clock"></i>
+        <span>Employee Clocking</span></a>
+    <ul class="dropdown-menu side-menus">
+        {{-- My Clocking (Public) --}}
+        <li class="side-menus {{ Request::is('employee-clocking*') && !Request::is('employee-clocking/admin-reports*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('employee-clocking.index') }}">
+                <i class="fas fa-clock" aria-hidden="true"></i><span>My Clocking</span>
+            </a>
+        </li>
+        
+        {{-- My Reports (Public) --}}
+        <li class="side-menus {{ Request::is('employee-clocking/reports*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('employee-clocking.reports') }}">
+                <i class="fas fa-chart-bar" aria-hidden="true"></i><span>My Reports</span>
+            </a>
+        </li>
+        
+        {{-- Admin Reports (Admin Only) --}}
+        @if(getLoggedInUser()->hasRole('Admin'))
+            <li class="side-menus {{ Request::is('employee-clocking/admin-reports*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('employee-clocking.admin-reports') }}">
+                    <i class="fas fa-users-cog" aria-hidden="true"></i><span>Admin Reports</span>
+                </a>
+            </li>
+        @endif
+    </ul>
+</li>
 {{-- Platform Dropdown --}}
 <li class="side-menus nav-item dropdown">
     <a href="#" class="nav-link has-dropdown"><i class="fas fa-cogs"></i>

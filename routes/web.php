@@ -30,6 +30,7 @@ use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\ClientRatingController;
 use App\Http\Controllers\UserDaysOffController;
 use App\Http\Controllers\DaysOffSettingController;
+use App\Http\Controllers\EmployeeClockingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -366,3 +367,35 @@ Route::middleware(['auth'])->group(function () {
 Route::get('days-off-admin/{userDaysOff}/edit', [UserDaysOffController::class, 'edit'])->name('days-off-admin.edit');
 Route::patch('days-off-admin/{userDaysOff}', [UserDaysOffController::class, 'update'])->name('days-off-admin.update');
 Route::get('days-off-schedule', [UserDaysOffController::class, 'publicIndex'])->name('days-off-public.index');
+
+
+Route::middleware('auth', 'validate.user', 'xss', 'user.activated')->group(function () {
+    Route::get('employee-clocking', [App\Http\Controllers\EmployeeClockingController::class, 'index'])->name('employee-clocking.index');
+    Route::post('employee-clocking/clock-in', [App\Http\Controllers\EmployeeClockingController::class, 'clockIn'])->name('employee-clocking.clock-in');
+    Route::post('employee-clocking/start-break', [App\Http\Controllers\EmployeeClockingController::class, 'startBreak'])->name('employee-clocking.start-break');
+    Route::post('employee-clocking/end-break', [App\Http\Controllers\EmployeeClockingController::class, 'endBreak'])->name('employee-clocking.end-break');
+    Route::post('employee-clocking/clock-out', [App\Http\Controllers\EmployeeClockingController::class, 'clockOut'])->name('employee-clocking.clock-out');
+    Route::get('employee-clocking/status', [App\Http\Controllers\EmployeeClockingController::class, 'getCurrentStatus'])->name('employee-clocking.status');
+    Route::get('employee-clocking/reports', [App\Http\Controllers\EmployeeClockingController::class, 'reports'])->name('employee-clocking.reports');
+    
+    // Admin routes for clocking reports
+    Route::middleware('permission:manage_users')->group(function () {
+        Route::get('employee-clocking/admin-reports', [App\Http\Controllers\EmployeeClockingController::class, 'adminReports'])->name('employee-clocking.admin-reports');
+    });
+});
+// Employee Clocking System Routes
+Route::prefix('employee-clocking')->name('employee-clocking.')->group(function () {
+    Route::get('/', [EmployeeClockingController::class, 'index'])->name('index');
+    Route::post('/clock-in', [EmployeeClockingController::class, 'clockIn'])->name('clock-in');
+    Route::post('/start-break', [EmployeeClockingController::class, 'startBreak'])->name('start-break');
+    Route::post('/end-break', [EmployeeClockingController::class, 'endBreak'])->name('end-break');
+    Route::post('/clock-out', [EmployeeClockingController::class, 'clockOut'])->name('clock-out');
+    Route::get('/status', [EmployeeClockingController::class, 'getCurrentStatus'])->name('status');
+    Route::get('/reports', [EmployeeClockingController::class, 'reports'])->name('reports');
+    Route::get('/admin-reports', [EmployeeClockingController::class, 'adminReports'])->name('admin-reports');
+    
+    // Admin management routes
+    Route::get('/{id}/edit', [EmployeeClockingController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [EmployeeClockingController::class, 'update'])->name('update');
+    Route::delete('/{id}', [EmployeeClockingController::class, 'destroy'])->name('destroy');
+});

@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         TrackerNotificationCommand::class,
+        \App\Console\Commands\FixClockingData::class,
     ];
 
     /**

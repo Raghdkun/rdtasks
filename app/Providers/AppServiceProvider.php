@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,10 +26,7 @@ class AppServiceProvider extends ServiceProvider
         //
         \Illuminate\Pagination\Paginator::useBootstrap();
         
-        // Set Carbon default timezone
-        Carbon::setDefaultTimezone('America/Indiana/Indianapolis');
-        
-        // Also set PHP default timezone
-        date_default_timezone_set('America/Indiana/Indianapolis');
+        // Set PHP default timezone to match Laravel's config
+        date_default_timezone_set(config('app.timezone'));
     }
 }

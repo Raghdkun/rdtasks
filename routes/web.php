@@ -119,7 +119,7 @@ Route::middleware('auth', 'validate.user', 'xss', 'user.activated')->group(funct
         ->name('project.delete-attachment');
     Route::get('projects/{project}/get-attachments',
         [ProjectController::class, 'getAttachment'])->name('projects.attachments');
-    Route::get('projects/media/{id}', [ProjectController::class, 'downloadAttachment'])->name('download-attachment');
+    Route::get('projects/media/{id}', [ProjectController::class, 'downloadAttachment'])->name('project.download-attachment');
 
 
 //    });
@@ -252,7 +252,7 @@ Route::middleware('auth', 'validate.user', 'xss', 'user.activated')->group(funct
         Route::post('google-recaptcha', [SettingController::class, 'googleRecaptchaUpdate'])->name('google-recaptcha.settings');
     });
 
-    Route::get('tasks/media/{id}', [TaskController::class, 'downloadAttachment'])->name('download-attachment');
+    Route::get('tasks/media/{id}', [TaskController::class, 'downloadAttachment'])->name('task.download-attachment');
 
     Route::middleware('permission:manage_activity_log')->group(function () {
         Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs');
